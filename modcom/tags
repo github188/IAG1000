@@ -1,0 +1,31 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.4	//
+AR	Makefile	/^AR	    = ar$/;"	m
+ARFLAGS	Makefile	/^ARFLAGS = rcv$/;"	m
+CFLAGS	Makefile	/^CFLAGS  = -O3$/;"	m
+MAIN_PROCESS_ID	mod_com.h	19;"	d
+MAIN_RECV_CMD_CHANNEL	mod_com.h	15;"	d
+MAIN_SEND_CMD_CHANNEL	mod_com.h	14;"	d
+MAX_MOD_CMD_LEN	mod_com.h	17;"	d
+MSG_INIT_ATTRIB	mod_com.h	25;"	d
+OBJS	Makefile	/^OBJS = $(SRCS:.c=.o)$/;"	m
+RECV_MOD_CMD_ALL	mod_com.h	11;"	d
+RM	Makefile	/^RM      = rm -f$/;"	m
+RTIMAGE_PROCESS_ID	mod_com.h	21;"	d
+SRCS	Makefile	/^SRCS = mod_com.c$/;"	m
+SUFFIXES	Makefile	/^SUFFIXES = .o .c .h .a .so .sl$/;"	m
+UPDATE_PROCESS_ID	mod_com.h	20;"	d
+c	Makefile	/^COMPILE.c=$(CC) $(CFLAGS) -c$/;"	m
+cmd	mod_com.h	/^    unsigned short cmd;			 \/\/命令字$/;"	m	struct:mod_com_type
+cmdlen	mod_com.h	/^    unsigned short cmdlen;		 \/\/命令的长度，以字节为单位，包括cmd和参数$/;"	m	struct:mod_com_type
+mod_com_init	mod_com.c	/^int mod_com_init(key_t key,int flag)$/;"	f
+mod_com_recv	mod_com.c	/^int  mod_com_recv(int com_id,long int addr,struct mod_com_type *recv,int flag)$/;"	f
+mod_com_send	mod_com.c	/^int  mod_com_send(int com_id,struct mod_com_type *send,int flag)$/;"	f
+mod_com_type	mod_com.h	/^struct mod_com_type$/;"	s
+para	mod_com.h	/^    unsigned char  para[1];   		 \/\/命令的参数$/;"	m	struct:mod_com_type
+source	mod_com.h	/^    long int source;			 \/\/发送命令的模块的地址$/;"	m	struct:mod_com_type
+target	mod_com.h	/^    long int target;                     \/\/命令的目标模块地址$/;"	m	struct:mod_com_type

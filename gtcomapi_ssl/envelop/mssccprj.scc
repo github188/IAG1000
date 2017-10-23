@@ -1,0 +1,9 @@
+SCC = This is a Source Code Control file
+
+[env_test.mak]
+SCC_Aux_Path = "\\zhengjiping\vss\"
+SCC_Project_Name = "$/国通报警网络项目/08_项目编码/Envelop", GHKAAAAA
+
+[env_test.dsp]
+SCC_Aux_Path = "\\zhengjiping\vss\"
+SCC_Project_Name = "$/国通报警网络项目/08_项目编码/Envelop", GHKAAAAA

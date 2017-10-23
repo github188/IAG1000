@@ -1,0 +1,86 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.4	//
+BSC32	env_test.mak	/^BSC32=bscmake.exe$/;"	m
+BSC32_FLAGS	env_test.mak	/^BSC32_FLAGS=\/nologo \/o"$(OUTDIR)\\env_test.bsc" $/;"	m
+BSC32_SBRS	env_test.mak	/^BSC32_SBRS= \\$/;"	m
+CC	Makefile	/^CC=arm-linux-gcc$/;"	m
+CFG	env_test.mak	/^!MESSAGE NMAKE \/f "env_test.mak" CFG="env_test - Win32 Debug"$/;"	m
+CFG	env_test.mak	/^CFG=env_test - Win32 Debug$/;"	m
+CFLAGS	Makefile	/^CFLAGS=$(DEBUG_FLAGS) $(INCLUDE_FLAGS) -DNO_CONFIG_H$/;"	m
+COMPILE	Makefile	/^COMPILE=$(CC) $(CFLAGS) -c$/;"	m
+CPP	env_test.mak	/^CPP=cl.exe$/;"	m
+CPP_PROJ	env_test.mak	/^CPP_PROJ=\/nologo \/ML \/W3 \/GX \/O2 \/D "WIN32" \/D "NDEBUG" \/D "_CONSOLE" \/D "_MBCS" \/Fp"$(INTDIR)\\env_test.pch" \/YX \/Fo"$(INTDIR)\\\\" \/Fd"$(INTDIR)\\\\" \/FD \/c $/;"	m
+CPP_PROJ	env_test.mak	/^CPP_PROJ=\/nologo \/MLd \/W3 \/Gm \/GX \/ZI \/Od \/D "WIN32" \/D "_DEBUG" \/D "_CONSOLE" \/D "_MBCS" \/D "_WIN32" \/FR"$(INTDIR)\\\\" \/Fp"$(INTDIR)\\env_test.pch" \/YX \/Fo"$(INTDIR)\\\\" \/Fd"$(INTDIR)\\\\" \/FD \/GZ \/c $/;"	m
+DEBUG_FLAGS	Makefile	/^DEBUG_FLAGS=-g -ggdb3 -Wall -Wshadow$/;"	m
+ENV_BUFFER_MIN	gt_env.c	22;"	d	file:
+ERR_ENV_BUF_INVALID	gt_env.h	77;"	d
+ERR_ENV_CERT_INVALID	gt_env.h	78;"	d
+ERR_ENV_DATA_EXCEED	gt_env.h	81;"	d
+ERR_ENV_DECRYPT_FAILED	gt_env.h	84;"	d
+ERR_ENV_ENCRYPT_FAILED	gt_env.h	83;"	d
+ERR_ENV_ENV_INVALID	gt_env.h	82;"	d
+ERR_ENV_KEY_INVALID	gt_env.h	79;"	d
+ERR_ENV_MEMORY	gt_env.h	80;"	d
+IN	gt_env.h	74;"	d
+INCLUDE_FLAGS	Makefile	/^INCLUDE_FLAGS=-I$(SSL_INCLUDEDIR)$/;"	m
+INTDIR	env_test.mak	/^INTDIR=.\\Debug$/;"	m
+INTDIR	env_test.mak	/^INTDIR=.\\Release$/;"	m
+IV_SIZE	gt_env.c	19;"	d	file:
+LENGTH_BYTES	gt_env.c	21;"	d	file:
+LINK32	env_test.mak	/^LINK32=link.exe$/;"	m
+LINK32_FLAGS	env_test.mak	/^LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib \/nologo \/subsystem:console \/incremental:no \/pdb:"$(OUTDIR)\\env_test.pdb" \/machine:I386 \/out:"$(OUTDIR)\\env_test.exe" $/;"	m
+LINK32_FLAGS	env_test.mak	/^LINK32_FLAGS=ssleay32.lib libeay32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib \/nologo \/subsystem:console \/incremental:yes \/pdb:"$(OUTDIR)\\env_test.pdb" \/debug \/machine:I386 \/out:"output\/env_test.exe" \/pdbtype:sept $/;"	m
+LINK32_OBJS	env_test.mak	/^LINK32_OBJS= \\$/;"	m
+LINK_FLAGS	Makefile	/^LINK_FLAGS=-L$(SSL_LIBDIR) -lssl -lcrypto $/;"	m
+MAX_DATA_LEN	gt_env.c	20;"	d	file:
+NULL	env_test.mak	/^NULL=$/;"	m
+NULL	env_test.mak	/^NULL=nul$/;"	m
+OBJS	Makefile	/^OBJS=loadkeys.o gt_env.o env_test.o$/;"	m
+OUT	gt_env.h	75;"	d
+OUTDIR	env_test.mak	/^OUTDIR=.\\Debug$/;"	m
+OUTDIR	env_test.mak	/^OUTDIR=.\\Release$/;"	m
+OutDir	env_test.mak	/^OutDir=.\\Debug$/;"	m
+OutDir	env_test.mak	/^OutDir=.\\Release$/;"	m
+RM	Makefile	/^RM=rm -f$/;"	m
+RSC	env_test.mak	/^RSC=rc.exe$/;"	m
+SLEEP	env_os.h	21;"	d
+SLEEP	env_os.h	23;"	d
+SOURCE	env_test.mak	/^SOURCE=.\\env_test.c$/;"	m
+SOURCE	env_test.mak	/^SOURCE=.\\gt_env.c$/;"	m
+SOURCE	env_test.mak	/^SOURCE=.\\loadkeys.c$/;"	m
+SRCS	Makefile	/^SRCS=loadkeys.c gt_env.c env_test.c $/;"	m
+SSL_HOMEDIR	Makefile	/^SSL_HOMEDIR=..\/libssl$/;"	m
+SSL_INCLUDEDIR	Makefile	/^SSL_INCLUDEDIR=$(SSL_HOMEDIR)\/include$/;"	m
+SSL_LIBDIR	Makefile	/^SSL_LIBDIR=$(SSL_HOMEDIR)$/;"	m
+TARGETS	Makefile	/^TARGETS=env_test$/;"	m
+_CACHE_	gt_env.c	11;"	d	file:
+_GT_ALARM_TAO_ENV_20050223_	gt_env.h	50;"	d
+_GT_ALARM_TAO_ENV_OS_20050225_	env_os.h	9;"	d
+_GT_ALARM_TAO_LOADKEYS_20050223_	loadkeys.h	9;"	d
+cert	env_test.c	/^char * cert = "cert.pem";$/;"	v
+do_seal	gt_env.c	/^int do_seal(const EVP_CIPHER * cipher,$/;"	f
+do_unseal	gt_env.c	/^int do_unseal(const EVP_CIPHER * cipher,$/;"	f
+env_init	gt_env.c	/^int env_init(IN char * cert,IN char * key)$/;"	f
+env_pack	gt_env.c	/^int env_pack(IN	int etype,$/;"	f
+env_release	gt_env.c	/^void env_release()$/;"	f
+env_unpack	gt_env.c	/^int env_unpack(IN int etype,$/;"	f
+g_cert	gt_env.c	/^char * g_cert = NULL;	\/\/证书文件名$/;"	v
+g_crypt_type	env_test.c	/^int  g_crypt_type = 1;$/;"	v
+g_key	gt_env.c	/^char * g_key  = NULL;	\/\/私钥文件名$/;"	v
+g_prv_key	gt_env.c	/^EVP_PKEY * g_prv_key = NULL;\/\/缓存的私钥$/;"	v
+g_pub_key	gt_env.c	/^EVP_PKEY * g_pub_key[1];    \/\/缓存的公钥$/;"	v
+g_pub_key_size	gt_env.c	/^int	   g_pub_key_size = 0;		\/\/公钥长度$/;"	v
+g_try_times	env_test.c	/^int  g_try_times = 1;$/;"	v
+get_cipher	gt_env.c	/^const EVP_CIPHER * get_cipher(int type)$/;"	f
+key	env_test.c	/^char * key = "privkey.pem";$/;"	v
+main	env_test.c	/^int main(int argc, char *argv[])$/;"	f
+message	env_test.c	/^char * message = "Hello , world!  This is a test for digital envelop!";$/;"	v
+pack_unpack	env_test.c	/^void * pack_unpack(void * argv)$/;"	f
+read_private_key	loadkeys.c	/^EVP_PKEY *read_private_key(const char *keyfile)$/;"	f
+read_pub_key	loadkeys.c	/^EVP_PKEY * read_pub_key(const char *certfile)$/;"	f
+time_env	env_test.c	/^double time_env,time_unenv;$/;"	v
+time_unenv	env_test.c	/^double time_env,time_unenv;$/;"	v
