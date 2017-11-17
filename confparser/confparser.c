@@ -10,6 +10,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include "common/commonlib.h"
 #include "confparser.h"
 
 #define CONF_INVALID_KEY     ((char*)-1)

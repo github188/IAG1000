@@ -6,6 +6,7 @@
 #include "watch_board.h"
 #include "devstat.h"
 #include "gtvs_io_api.h"
+#include "common/commonlib.h"
 
 #define TRIG_ACT_RECORD	1	//执行触发事件
 #define TRIG_ACT_ALARM		2	//执行报警事件

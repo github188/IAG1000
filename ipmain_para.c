@@ -61,7 +61,7 @@ void  init_para(void)
 		set_sock_addr(devpara->rmt_gate4,buf);
 		set_sock_addr(devpara->alarm_gate,buf);
 
-		sprintf(devpara->inst_place,"%s","Î´ÉèÖÃ");
+		sprintf((char *)devpara->inst_place,"%s","Î´ÉèÖÃ");
 		devpara->cmd_port=DEV_MAIN_CMD_PORT;
 		devpara->ip_chg_flag = 0;
 		devpara->sendgateini_flag = 1;

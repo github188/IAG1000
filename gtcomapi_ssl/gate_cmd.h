@@ -9,12 +9,10 @@
 #ifndef _WIN32  
 #include <pthread.h>
 #include <typedefine.h>
-////zw
 #include<sys/time.h>
 #include<unistd.h>
 #include<stdio.h>
 //#include <gt_netsdk_ip.h>
-////
 #else
 #include <windows.h>
 #endif
@@ -33,8 +31,13 @@ struct gt_time_struct{
 #define USR_REQUIRE_RT_IMAGE	0x0100				 //网关发送设定允许访问实时图像端口的客户ip
 #define USR_STOP_RT_IMAGE       0x0102
 #define USR_REQUIRE_RT_IMAGE_ANSWER 0x8100
+
 #define USR_REQUIRE_SPEAK		0x0107				//网关发送允许访问音频下行端口的客户的ip
-#define USR_REQUIRE_RECORD_PLAYBACK 0x0117        //网关发送请求录像点播命令
+#define USR_STOP_SPEAK		0x0107				//网关发送允许访问音频下行端口的客户的ip
+
+#define USR_REQUIRE_RECORD_PLAYBACK 0x0617        //网关发送请求录像点播命令
+#define USR_REQUIRE_RECORD_PLAYBACK_ANSWER 0x8617        //网关发送请求录像点播命令
+#define USR_STOP_RECORD_PLAYBACK 0x06118        //网关发送请求录像点播命令
 
 //control&set
 #define  USR_SET_AUTH_IP   				0x0101		 //网关服务器地址设定

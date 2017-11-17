@@ -8,16 +8,23 @@
 #include <devinfo.h>
 #include <signal.h>
 #include <dirent.h>
-
+#include "rtimg_para2.h"
+#include "avserver.h"
 #include "netcmdproc.h"
+#include "net_avstream.h"
+#include "net_aplay.h"
 #include "devstat.h"
+#include "common/commonlib.h"
 
 #include "gate_connect.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <stdlib.h>
 
 /****************在ulibc环境下********************************/
+/*
 int posix_memalign(void **memptr, size_t alignment, size_t size)
-{
-	if (alignment % sizeof(void *) != 0)
+{ if (alignment % sizeof(void *) != 0)
 		//|| !powerof2(alignment / sizeof(void *)) != 0
 		//	|| alignment == 0
 	return -EINVAL;
@@ -25,12 +32,12 @@ int posix_memalign(void **memptr, size_t alignment, size_t size)
 	*memptr = memalign(alignment, size);
 	return (*memptr != NULL ? 0 : ENOMEM);
 }
+*/
 
 /************************************************************************************/
 
 /***************在日志上记录程序退出状态*********************/
-static void exit_log(int signo)
-{
+static void exit_log(int signo) {
 	switch(signo)
 	{
 		case SIGPIPE:
@@ -62,6 +69,7 @@ static void exit_log(int signo)
 	return;
 }
 
+/*
 static int deamon_init(void)
 {
 	pid_t pid;
@@ -93,7 +101,7 @@ static int deamon_init(void)
 	
 	return 0;
 }
-
+*/
 
 /**********************************************************************************************
  * 函数名	:get_gtthread_attr()
@@ -123,7 +131,7 @@ int main(int argc,char **argv)
     struct ipmain_para_struct *ipmain_para;		//参数指针
 	int lock_file;									//锁文件的描述符
 	char pbuf[100];								//临时缓冲区
-	char devid[32];								//设备guid临时缓冲区
+	unsigned char devid[32];								//设备guid临时缓冲区
 	unsigned short serv_port;						//命令服务端口
 
 	gtopenlog("ipmain");							//打开日志
@@ -204,7 +212,7 @@ int main(int argc,char **argv)
 	signal(SIGUSR1,exit_log);
 
 	//todo 增加一个nvr 连接线程
-	//create_nvr_connect_thread(attr);
+	//create_nvr_manager_thread(attr);
 	
 	//保留检测线程
 	watch_process_thread();					//转化为监控线程

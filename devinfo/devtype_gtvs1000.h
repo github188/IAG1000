@@ -50,8 +50,8 @@ static GTSeriesDVSR     DEV_GTVS1024_OA={
 	 .osd		=	1,							//有osd
         .videonum	=	4,              //int     videonum;       	//#系统最多视频输入数(和移动侦测有关),在quad=0时videonum应该为1 
         .videoencnum=	2,              //int     videoencnum;    //#视频编码器数量
-	 .use_cpu_iic  =	0,		  //int	use_cpu_iic	不使用cpuiic总线控制视频ad转换芯片
 	 .hqencnum	=	1,			
+	 .use_cpu_iic  =	0,		  //int	use_cpu_iic	不使用cpuiic总线控制视频ad转换芯片
         .ide			=	1,              //int     ide;            	//#1表示有cf卡或硬盘 0表示没有
         .audionum      =   1,             //int audio
         .eth_port	=	1,              //int     eth_port;       	//#网口数 1表示一个 2表示两个

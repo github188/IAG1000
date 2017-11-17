@@ -177,7 +177,7 @@ static void * thread_main(void *arg)
 	  rserver_fd=-1;
 		 if(pthread_mutex_lock(&mlock[devno])==0)
          {
-         	connfd = accept(listen_fd, (void*)&cliaddr, &clilen);
+         	connfd = accept(listen_fd, (struct sockaddr *)&cliaddr, &clilen);
          	pthread_mutex_unlock(&mlock[devno]);
          }
 	 else

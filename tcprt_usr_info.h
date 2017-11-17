@@ -12,6 +12,7 @@
 #include <arpa/inet.h>
 #include <sys/time.h>
 #include <pthread.h>
+#include "rtimage2.h"
 
 ////
 

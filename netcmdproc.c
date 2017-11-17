@@ -19,6 +19,7 @@
 #include "remote_file.h"
 #include "xmlparser.h"
 #include "alarm_process.h"
+#include "gtvs_io_api.h"
 
 static pthread_mutex_t update_mutex = PTHREAD_MUTEX_INITIALIZER;
 static int update_waiting_no=0;	//记录发来过升级要求的网关数目
@@ -572,6 +573,64 @@ static int send_gate_serial_return(int fd,WORD ch,WORD result,WORD port, int env
 	printf("%s向远端服务器发送透明串口控制命令返回%d\n",devlog(dev_no),result);
 #endif
 	gtloginfo("%s向远端服务器发送透明串口控制命令返回%d\n",devlog(dev_no),result);
+	return 0;
+}
+
+
+static int send_gate_query_rt_return(int fd,WORD ch,WORD result, int env,int enc, int dev_no)
+{
+	DWORD send_buf[25];//响应命令包不会超过100字节
+	struct gt_usr_cmd_struct *cmd;
+	struct mod_com_type *modcom;
+	struct usr_req_rt_img_answer_struct * answer;
+	int rc;
+	
+	modcom=(struct mod_com_type *)send_buf;
+	modcom->env = env;
+	modcom->enc = enc;
+	cmd=(struct gt_usr_cmd_struct *)modcom->para;
+	cmd->cmd=USR_REQUIRE_RT_IMAGE_ANSWER;
+	cmd->en_ack=0;
+	cmd->reserve0=0;
+	cmd->reserve1=0;
+	rc=virdev_get_devid(dev_no,cmd->para);
+	answer=(struct usr_req_rt_img_answer_struct *)((char *)cmd->para+rc);
+	answer->query_usr_id = ch;
+	cmd->len=rc+SIZEOF_GT_USR_CMD_STRUCT-sizeof(cmd->para)-2+SIZEOF_DEV_COM_RET_STRUCT;
+	send_gate_pkt(fd,modcom,cmd->len+2,dev_no);
+
+#ifdef SHOW_WORK_INFO
+	printf("%s向远端服务器发送订阅视频应答命令%d\n",devlog(dev_no),result);
+#endif
+	gtloginfo("%s向远端服务器发送订阅视频应答命令%d\n",devlog(dev_no),result);
+	return 0;
+}
+static int send_gate_query_pb_return(int fd,WORD ch,WORD result, int env,int enc, int dev_no)
+{
+	DWORD send_buf[25];//响应命令包不会超过100字节
+	struct gt_usr_cmd_struct *cmd;
+	struct mod_com_type *modcom;
+	viewer_subsrcibe_answer_record_struct * answer;
+	int rc;
+	
+	modcom=(struct mod_com_type *)send_buf;
+	modcom->env = env;
+	modcom->enc = enc;
+	cmd=(struct gt_usr_cmd_struct *)modcom->para;
+	cmd->cmd=USR_REQUIRE_RECORD_PLAYBACK_ANSWER;
+	cmd->en_ack=0;
+	cmd->reserve0=0;
+	cmd->reserve1=0;
+	rc=virdev_get_devid(dev_no,cmd->para);
+	answer=( viewer_subsrcibe_answer_record_struct *)((char *)cmd->para+rc);
+	answer->query_usr_id = ch;
+	cmd->len=rc+SIZEOF_GT_USR_CMD_STRUCT-sizeof(cmd->para)-2+SIZEOF_DEV_COM_RET_STRUCT;
+	send_gate_pkt(fd,modcom,cmd->len+2,dev_no);
+
+#ifdef SHOW_WORK_INFO
+	printf("%s向远端服务器发送订阅视频应答命令%d\n",devlog(dev_no),result);
+#endif
+	gtloginfo("%s向远端服务器发送订阅视频应答命令%d\n",devlog(dev_no),result);
 	return 0;
 }
 
@@ -1687,6 +1746,98 @@ static int usr_update_software_cmd(int fd,struct gt_usr_cmd_struct *netcmd,int e
 	return 0;
 }
 */
+static int usr_require_rt(int fd,struct gt_usr_cmd_struct *cmd,int env,int enc,int dev_no)
+{
+
+	WORD	result;
+
+	struct in_addr  addr;
+
+	struct usr_req_rt_img_struct * query_cmd = (struct usr_req_rt_img_struct *)cmd->para;
+
+	memcpy(&addr,&query_cmd->remoteip,sizeof(struct in_addr));
+
+	printf("IAG 收到请求视频命令 rtmp://%s:%d/realplay%d/%d\n",\
+				inet_ntoa(addr), \
+				query_cmd->remoteport,\
+				query_cmd->stream_idx,\
+				query_cmd->channel);
+
+
+
+	
+	
+
+	result=RESULT_SUCCESS;
+	if(cmd->en_ack!=0)
+
+		return send_gate_query_rt_return(fd,query_cmd->channel,result,env,enc,dev_no);
+}
+
+static int usr_stop_rt(int fd,struct gt_usr_cmd_struct *cmd,int env,int enc,int dev_no)
+{
+	WORD	result;
+
+	struct usr_stop_rt_img_struct* query_cmd = (struct usr_stop_rt_img_struct *)cmd->para;
+
+	printf("IAG 收到停止视频命令 id = %d \n",query_cmd->query_usr_id);	
+
+	result=RESULT_SUCCESS;
+
+	if(cmd->en_ack!=0)
+
+		return send_gate_ack(fd,USR_STOP_RT_IMAGE, result,env,enc,dev_no);
+
+	return 0;
+
+}
+
+static int usr_require_pb(int fd,struct gt_usr_cmd_struct *cmd,int env,int enc,int dev_no)
+{
+	WORD	result;
+
+
+	viewer_subscribe_record_struct  * query_cmd = (viewer_subscribe_record_struct  *)cmd->para;
+
+	printf("IAG 收到请求回放命令 rtmp://%s:%d/playback%d/%d\n",\
+				query_cmd->peer_ip,\
+				query_cmd->peer_port,\
+				query_cmd->stream_idx,\
+				query_cmd->channel);
+
+
+	
+
+	result=RESULT_SUCCESS;
+	if(cmd->en_ack!=0)
+
+		return send_gate_query_pb_return(fd,query_cmd->channel,result,env,enc,dev_no);
+
+	return 0;
+
+}
+
+static int usr_stop_pb(int fd,struct gt_usr_cmd_struct *cmd,int env,int enc,int dev_no)
+{
+
+	WORD	result;
+
+	viewer_unsubscribe_record_struct * query_cmd = (viewer_unsubscribe_record_struct *)cmd->para;
+
+	printf("IAG 收到停止视频命令 id = %d \n",query_cmd->query_usr_id);	
+
+
+
+	result=RESULT_SUCCESS;
+	if(cmd->en_ack!=0)
+		return send_gate_ack(fd,USR_REQUIRE_RT_IMAGE_ANSWER, result,env,enc,dev_no);
+	return 0;
+
+
+}
+
+
+
 
 //static int regist_cnt=0;//shixintest
 /**********************************************************************************************
@@ -2152,6 +2303,8 @@ static int usr_query_regist(int fd,struct gt_usr_cmd_struct* cmd,int env,int enc
 }
 
 
+
+
 /**********************************************************************************************
  * 函数名	:process_netcmd()
  * 功能	:处理远程计算机发来的命令
@@ -2242,6 +2395,23 @@ void process_netcmd(int fd,struct gt_usr_cmd_struct* cmd,int env,int enc,int dev
 		case USR_REQUIRE_SELF_IP://用户查询自己的ip地址
 				usr_require_self_ip_cmd(fd,cmd,env,enc,dev_no);
 		break;	
+
+		case USR_REQUIRE_RT_IMAGE: //用户请求音视频
+				usr_require_rt(fd,cmd,env,enc,dev_no);
+		break;
+		case USR_STOP_RT_IMAGE: //用户停止音视频
+				usr_stop_rt(fd,cmd,env,enc,dev_no);
+		break;
+		case USR_REQUIRE_RECORD_PLAYBACK: //用户请求录像回放
+				usr_require_pb(fd,cmd,env,enc,dev_no);
+		break;
+		case USR_STOP_RECORD_PLAYBACK: //用户停止录像回放
+				usr_stop_pb(fd,cmd,env,enc,dev_no);
+		break;
+		
+		
+		
+				
 		default:
 			printf("ipmain recv unknown gatecmd:0x%04x\n",cmd->cmd);	
 			gtlogwarn("%s发来不支持的网络命令0x%04x\n",inet_ntoa(peeraddr.sin_addr),cmd->cmd);

@@ -206,7 +206,7 @@ int connect_to_gate(int dev_no, struct gate_struct *gate)
 	int rc;
 	int sock;
 	struct sockaddr_in *addr;
-	dev_gate_struct *devgate=malloc(sizeof(dev_gate_struct));
+	dev_gate_struct *devgate=(dev_gate_struct*)malloc(sizeof(dev_gate_struct));
 	if(gate==NULL)
 		return -1;
 	rc=-1;
@@ -401,7 +401,7 @@ static int send_pkt_to_gate(int fd,struct gt_pkt_struct *send,int len,int flag, 
 	int rc;
 	struct sockaddr_in addr;
 	struct gt_usr_cmd_struct* cmd;
-	int addrlen=sizeof(struct sockaddr);
+	socklen_t  addrlen=sizeof(struct sockaddr);
 	struct ipmain_para_struct *para;
 	DWORD remote,localip,mask;
 	struct ip1004_info_struct *info;
@@ -472,7 +472,7 @@ int gate_connect_cmd_proc(struct mod_com_type *cmd)
 	struct gt_usr_cmd_struct *send_cmd;
 	struct sockaddr_in gate_addr;
 	struct ipmain_para_struct *mainpara;
-	int addrlen;
+	socklen_t  addrlen;
 	int rmt_fd;
 	int sendlen;
 	int trynum;
@@ -705,7 +705,8 @@ void *recv_gate_ack_thread(void *dev_gate)
 	struct gate_struct *gate;
 	struct timeval	timeout;
 	struct sockaddr_in gate_addr;
-	int addrlen,temp;
+	socklen_t addrlen;
+	int temp;
  	DWORD recv_gate_ack_buffer[1024];
 	DWORD	recv_gate_ack_tmp_buf[1024];
 	int		connect_time=0;		//线程创建的时间(秒为单位)

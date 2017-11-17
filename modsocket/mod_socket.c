@@ -12,7 +12,9 @@
 #include "gtsocket.h"
 #include "gtlog.h"
 #include "gtthread.h"
-
+#include <string.h>
+#include <arpa/inet.h>
+#include <stdlib.h>
 #define		MOD_MULTICAST_ADDR	"227.0.0.1"		//模块间多播的地址(本机)
 #define		MOD_SOCKET_PORT			0x7654		//模块间socket通讯的端口
 #define		MOD_SOCKET_MAGIC			0x8135		//模块间socket通讯的魔术字，用于区分正确命令

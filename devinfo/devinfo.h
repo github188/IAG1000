@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 #ifndef DEVINFO_H
 #define DEVINFO_H
 #define DEV_GUID_BYTE 8
@@ -416,4 +419,6 @@ void print_support_deivce_list(void);
 
 
 
-
+#ifdef __cplusplus
+}
+#endif

@@ -1,6 +1,13 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 #ifndef SUBDEVDEF_H
 #define SUBDEVDEF_H
+
+
 #include <devinfo.h>
+
+
 typedef struct{                 //视频服务器的子设备信息结构
         int             type;           //子设备类型
         int             no;                     //子设备在同类设备中的序号
@@ -44,8 +51,8 @@ static DevType_T IDEDisk={
 static DevType_T AudioChip={
 		//音频编解码芯片
 		.type		=	SUB_DEV_ACDC,
-		.name		=	"uda1341",
 		.no			=	0,
+		.name		=	"uda1341",
 		.node		=	"/dev/dsp",
 		.driver		=	NULL
 	};
@@ -108,4 +115,8 @@ static DevType_T QuadDev_2835={
 		.node		=	"/dev/quaddev",
 		.driver		=	NULL		   
 	};
+
+#endif
+#ifdef __cplusplus
+}
 #endif

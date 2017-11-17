@@ -11,6 +11,7 @@
 #include <devinfo.h>
 #include "guid.h"
 #include "devtype.h"
+#include "common/commonlib.h"
 
 #if EMBEDED==0
 //	#define FOR_PC_MUTI_TEST		//支持在同一台pc机上启动多个程序
@@ -39,12 +40,14 @@ typedef struct{
 }devinfo_struct;
 
 
-
-static devinfo_struct info={
+//注意原来为.dvsr
+static devinfo_struct info;
+/*static devinfo_struct info={
 	.dvsr			=	NULL,
-	.disk_capacity		=	0,
+	.disk_capacity		=	0
 
 };
+*/
 static  char *def_dev_guid="0067007400000000";//{0x0,0x0,0x0,0x0,'t',0x0,'g',0x0};//static int dev_type =0; //设备类型
 
 GTSeriesDVSR	*get_current_dvsr(void)
