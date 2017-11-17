@@ -31,13 +31,17 @@ bool NetLayer_CreateSocket(unsigned short port)
 	
 	return listen_fd;
 }
-bool NetLayer_Connect(void)
+bool NetLayer_Connect(const char* ipaddr, unsigned short port,NetLayer * netlayer)
 {
-
 	
 	SOCKET conn_fd = -1;
-	tcp_connect_addr(ipaddr,port,timeout);
-	netlayer.conn_socket = sock_fd;
+	conn_fd = tcp_connect_addr(ipaddr, port, timeout);
+	if(fd > 0 )
+		netlayer.conn_socket = conn_fd;
+	else
+	  printf(" Connect %s error!\n",ipaddr);
+
+	return NET_LAYER_SUCCESS;
 
 }
 DWORD  HandIoThread(void * parameter)
@@ -64,7 +68,7 @@ DWORD  HandIoThread(void * parameter)
 		}
 		if(Serv->m_PbSocket!=NULL)
 		{
-			FD_SET(Serv->m_Socket,&fdread);
+			FD_SET(Serv->PbSocket,&fdread);
 			
 		}
 		

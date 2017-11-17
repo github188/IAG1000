@@ -76,18 +76,20 @@ int NVR_Module_Init(void)
 	// init media pool
 	init_media_system();
 
+	//init netlayer instance
 	NetLayer_Init(&nvr_dev.netlayer);
-	// must be ture
-	fd = NetLayer_CreateSocket(RT_PORT);
 
+	//create rt socket 
+	fd = NetLayer_CreateSocket(RT_PORT);
 	nvr_dev->netlayer->rt_socket = fd;
 
+	//create pb socket
 	fd = NetLayer_CreateSocket(PB_PORT);
-
 	nvr_dev->netlayer->pb_socket = fd;
 
 	NetLayer_SetCallBack(nvr_dev->netlayer, RealTime_CB, PlayBack_CB, Notify_CB, (void *)nvr_dev);
 
+	//set rt pb cmd fds to readfds 
 	NetLayer_Create_Server();
 	
 
@@ -96,12 +98,13 @@ int NVR_Module_Init(void)
 
 
 }
-handle_t NVR_Module_Connect(char * ipaddr,short port)
+// return 
+int  NVR_Module_Connect(nvr_device_t* nvr_dev, const char* ipaddr, unsigned short port)
 {
 
-	NetLayer_Connect(ipaddr,port);
+	return NetLayer_Connect(nvr_dev->netlayer, ipaddr, port);
+	
 
-	return handle;
 }
 
 //handle  no sense
@@ -193,12 +196,9 @@ int nvr_manager_thread(void)
 		while(nvr_device->connect_status!= NVR_CONNECT_SUCCESS)
 		{
 
-			NVR_Module_Connect(ipmain_para->nvr_addr,ipmain_para->nvr_port)
+			if(NVR_CONNECT_SUCCESS == NVR_Module_Connect(&nvr_dev, ipmain_para->nvr_addr, ipmain_para->nvr_port))
 
-			nvr_device
-			set_cmd_fd();
-
-			nvr_device->connect_status = NVR_CONNECT_SUCCESS;
+				nvr_device->connect_status = NVR_CONNECT_SUCCESS;
 
 		}
 		
