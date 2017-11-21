@@ -6,6 +6,7 @@ typedef struct
 {
 	char [100] firmware;
 	char [24] ipaddr;
+	unsigned short port;
 	NetLayer  * netlayer;
 	realdata_CB rt_cb;
 	playback_CB pb_cb;
@@ -16,9 +17,16 @@ typedef struct
 }nvr_device_t;
 
 
+enum EVENT
+{
+			
+
+
+}
+
 typedef int (CALLBACK * Data_CB )(unsigned char * data,unsigned int len,unsigned int ts,void * dwuser)
 
-typedef int (CALLBACK * notify_CB )(int event,void * dwuser)
+typedef int (CALLBACK * Notify_CB )(enum EVENT event,void * dwuser)
 
 int NVR_Module_Init(void);
 
