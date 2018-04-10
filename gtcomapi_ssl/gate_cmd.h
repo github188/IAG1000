@@ -282,15 +282,16 @@ struct usr_rwdevpara_struct{
 //这个结构会被原样转发到实时图像模块
 //转发时在结构前应该有一个fd字段表示返回信息的描述符
 struct usr_req_rt_img_struct{
-//	WORD	save_flag;		//应该一直为0
-//	WORD	mode;			//访问模式 1表示请求连接，0表示强行断开任何已有的实时图像连接，其他值待定
-	WORD 	trans_protocal;    //协议类型 
+	WORD	save_flag;		//应该一直为0
+	WORD	mode;			//访问模式 1表示请求连接，0表示强行断开任何已有的实时图像连接，其他值待定
+	BYTE    dev_id[8];      //dev guid
+	DWORD 	remoteip;		//要推送实时图像的计算机ip地址
+	WORD	remoteport;     //对端端口
 	WORD    channel;        //通道号
-	DWORD 	remoteip;		//要访问GT1000实时图像的计算机ip地址
-	BYTE  	reserved[12];   //ipv6
-	DWORD   remoteport;     //对端端口
 	DWORD   stream_idx;     //事务号
-	DWORD   audio_flag;     //是否需要音频
+	WORD 	trans_protocal; //协议类型 
+	WORD	audio_flag     //是否发送音频
+	BYTE  	reserved[12];   //ipv6
 	
 };
 
@@ -315,7 +316,7 @@ struct usr_set_auth_ip_struct{
 							//允许访问的服务器信息
 	BYTE  server_sn;			//服务器存储序号(查找优先级序号)
 	BYTE  reserve1[3];		//保留
-    	DWORD ip;				//服务器ip地址（ip3,ip2,ip1,ip0）
+    DWORD ip;				//服务器ip地址（ip3,ip2,ip1,ip0）
 	DWORD reserve2[12];		//为ipv6地址扩展保留
 
 };
