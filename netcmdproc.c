@@ -1750,28 +1750,29 @@ static int usr_require_rt(int fd,struct gt_usr_cmd_struct *cmd,int env,int enc,i
 {
 
 	WORD	result;
-
-	struct in_addr  addr;
+	unsigned char * guid ; 
+	//struct in_addr  *addr;
 
 	struct usr_req_rt_img_struct * query_cmd = (struct usr_req_rt_img_struct *)cmd->para;
+	DWORD  ip = htonl(query_cmd->remoteip);
 
-	memcpy(&addr,&query_cmd->remoteip,sizeof(struct in_addr));
+	struct in_addr  *addr = (struct in_addr *)&ip ;
 
-	printf("IAG 收到请求视频命令 rtmp://%s:%d/realplay%d/%d\n",\
-				inet_ntoa(addr), \
+	//memcpy(&addr,ip,sizeof(struct in_addr));
+	guid = query_cmd->dev_id;
+
+	printf("IAG 收到请求视频命令 rtmp://%s:%d/realplay/%02x%02x%02x%02x%02x%02x%02x%02x/%d\n",\
+				inet_ntoa(*addr), \
 				query_cmd->remoteport,\
-				query_cmd->stream_idx,\
+				guid[7],guid[6],guid[5],guid[4],guid[3],guid[2],guid[1],guid[0],\
 				query_cmd->channel);
 
-
-
-	
-	
 
 	result=RESULT_SUCCESS;
 	if(cmd->en_ack!=0)
 
-		return send_gate_query_rt_return(fd,query_cmd->channel,result,env,enc,dev_no);
+		return send_gate_ack(fd,USR_REQUIRE_RT_IMAGE, result,env,enc,dev_no);
+		//return send_gate_query_rt_return(fd,query_cmd->channel,result,env,enc,dev_no);
 }
 
 static int usr_stop_rt(int fd,struct gt_usr_cmd_struct *cmd,int env,int enc,int dev_no)

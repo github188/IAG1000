@@ -290,7 +290,7 @@ struct usr_req_rt_img_struct{
 	WORD    channel;        //通道号
 	DWORD   stream_idx;     //事务号
 	WORD 	trans_protocal; //协议类型 
-	WORD	audio_flag     //是否发送音频
+	WORD	audio_flag    ; //是否发送音频
 	BYTE  	reserved[12];   //ipv6
 	
 };
