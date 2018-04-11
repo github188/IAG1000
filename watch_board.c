@@ -94,7 +94,7 @@ int init_ipalarm_fdset()
 }
 
 //读端子数据的线程
-//#define USE_IO
+#define USE_IO
 static void *watch_board_thread(void *para)
 {
 	DWORD oldstate = 0;//记录旧的端子输入状态，与报警无关
@@ -111,6 +111,8 @@ static void *watch_board_thread(void *para)
 
 	mainpara = get_mainpara();
 	ip1004state = get_ip1004_state(0);
+
+	init_gpiodrv();
 
 	while(1)
 	{

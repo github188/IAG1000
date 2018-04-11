@@ -85,10 +85,9 @@ struct ipmain_para_struct
 	WORD	telnet_port;						//telnet服务端口
 	WORD	ftp_port;						//ftp服务端口	
 	WORD	web_port;						//web配置页面服务端口
-	
     int		inst_ack;						//安装被确认标志 0表示未被正式安装 1表示已经被正式安装,未被正式安装时不需要证书也可以访问
-	
-    int     	internet_mode; 					//上网方式,0-adsl, 1-专线, 2-局域网
+    int     internet_mode; 					//上网方式,0-adsl, 1-专线, 2-局域网
+	int     id_str[20];
 
 };
 

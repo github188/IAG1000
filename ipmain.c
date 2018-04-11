@@ -15,6 +15,7 @@
 #include "net_aplay.h"
 #include "devstat.h"
 #include "common/commonlib.h"
+#include "weigen_recv.h"
 
 #include "gate_connect.h"
 #include <sys/types.h>
@@ -186,6 +187,7 @@ int main(int argc,char **argv)
 
 	//todo from mips io drivers
 	creat_watch_board_thread(attr);		//创建监视输入端子的线程
+
 	
 	//todo 此为接受gtc或者sdk 连接的信息,同样可以处理网关命令
 	init_mainnetcmd_threads(attr,ipmain_para->devpara[0].cmd_port,0);
@@ -213,6 +215,8 @@ int main(int argc,char **argv)
 
 	//todo 增加一个nvr 连接线程
 	//create_nvr_manager_thread(attr);
+	//todo 增加韦根读取线程
+	create_weigen_server();
 	
 	//保留检测线程
 	watch_process_thread();					//转化为监控线程

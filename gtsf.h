@@ -1,9 +1,5 @@
 #ifndef GTSF_H
 #define GTSF_H
-#include <sys/time.h>
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 
 #define GTSF_MARK            0XBFCF0267
@@ -23,13 +19,14 @@ extern "C" {
 #define FRAMETYPE_B		0x2
 #define FRAMETYPE_PCM	0x5		// IME6410 Header - Audio Frame
 #define FRAMETYPE_ADPCM	0x6		// IME6410 Header - Audio Frame
-#define FRAMETYPE_AAC	0x7		// frame flag - Audio Frame
 #define FRAMETYPE_MD	0x8
 
 #define RATIO_D1_PAL       0x0      //720*576
 #define RATIO_D1_NTSC      0x1      //704*576
 #define RATIO_CIF_PAL      0x2      // 352*288
 #define RATIO_CIF_NTSC     0x3      // 320*240
+#define RATIO_720P         0x4
+#define RATIO_1080P        0x5
 
 
 //视频编码类型
@@ -43,15 +40,15 @@ typedef struct{	//视频格式信息结构
 	unsigned char format;		//编码格式format
 	unsigned char  type;		//frame type	I/P/B...
 	unsigned char ratio;  //分辨率
-	unsigned char recv[4];			//是否是pal制视频
+	unsigned char recv;			//是否是pal制视频
 	
 }stream_video_format_t;
 
 typedef struct{	//音频格式信息结构
-	struct timeval tv;			//数据产生时的时间戳
-	unsigned short a_sampling;	//声音采样率
+	struct timeval tv;
+	unsigned short a_sampling;	//声音格式
+	unsigned char  a_wformat;	//声音采样率
 	unsigned char  a_channel;	//声音通道
-	unsigned char  a_wformat;	//声音格式
 	unsigned char  a_nr_frame;	//一包声音里面有几块数据
 	unsigned char  a_bitrate;		//声音码流
 	unsigned char  a_bits;		//音频采样位数
@@ -78,10 +75,6 @@ typedef struct gtsf_stream_fmt_struct
 	stream_format_t media_format;      //数据块格式
 	char data[0];				              //frame data
 }gtsf_stream_fmt;
-
-#ifdef __cplusplus
-};
-#endif
 
 #endif
 

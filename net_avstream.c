@@ -634,8 +634,7 @@ static void *rtnet_av_cmd_thread(void *para)
     struct sockaddr_in guest_addr;
     fd_set                   read_fds;
     int                        accept_fd=-1,maxfd=0;
-    int                        addrlen;
-    int                        ret;
+    int                        addrlen; int                        ret;
     int                        sel;
     struct timeval	    timeout;
     unsigned long        net_rec_buf[512];		///<接收网络发来的数据的缓冲区

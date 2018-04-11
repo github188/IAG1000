@@ -1277,6 +1277,33 @@ int gttime2tm (struct gt_time_struct *gttime, struct tm *time)
  **********************************************************************************************/
 int set_dev_time(struct tm *ntime)
 {
+	int ret;
+    struct tm nowtime;
+    time_t sysTime;
+    //下面是设置rtc内容，目前不需要 
+	/*
+	rtc_time_t tm;
+    tm.year = ntime->tm_year+1900;
+    tm.month = ntime->tm_mon+1;
+    tm.date = ntime->tm_mday;
+    tm.hour = ntime->tm_hour;
+    tm.minute = ntime->tm_min;
+    tm.second = ntime->tm_sec;
+    tm.weekday = 0;
+   
+	gtloginfo("set_dev_time_d %d-%d-%d-%d-%d-%d!\n",tm.year,tm.month,tm.date,tm.hour,tm.minute,tm.second);
+
+	ret = ioctl(g_rtc_fd, HI_RTC_SET_TIME, &tm);
+	if (ret < 0) {
+		printf("ioctl: HI_RTC_SET_TIME failed\n");
+		close(g_rtc_fd);
+		return ret;
+	}
+	*/
+
+	sysTime = mktime(ntime);
+	stime(&sysTime);
+
 	return 0;
 }
 

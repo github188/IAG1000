@@ -81,6 +81,7 @@ int rmt_set_time(struct tm *ntime)
 
     //ipcall to do set time
     //
+	ret = set_dev_time(ntime);
 
 	if(ret==0)
 	{
@@ -653,6 +654,9 @@ static int usr_set_gate_ip(int fd,struct gt_usr_cmd_struct *cmd,int env,int enc,
 //	
 	printf("%s(fd=%d)发来设置%s网关ip地址命令0x0101\n",inet_ntoa(peeraddr.sin_addr),fd,devlog(dev_no));
 	gtloginfo("%s(fd=%d)发来设置%s网关ip地址命令0x0101\n",inet_ntoa(peeraddr.sin_addr),fd,devlog(dev_no));
+	rmt=htonl(gatecmd->ip);
+	memcpy(&addr,&rmt,4);
+	printf("receive set ip cmd ip:%s\n",inet_ntoa(addr));
 
 	if(set_gate_ip(dev_no,gatecmd->server_sn,&gatecmd->ip,REMOTE_GATE_CMD_PORT)<0)
 	{
@@ -664,9 +668,7 @@ static int usr_set_gate_ip(int fd,struct gt_usr_cmd_struct *cmd,int env,int enc,
 		if(gatecmd->save_flag)
 		{
 			//存入flash
-			rmt=htonl(gatecmd->ip);
-			memcpy(&addr,&rmt,4);
-			switch(gatecmd->server_sn)
+		switch(gatecmd->server_sn)
 			{
 				case 1:
 				{
@@ -768,7 +770,7 @@ static int usr_set_clock(int fd,struct gt_usr_cmd_struct *cmd,int env,int enc,in
 		}
 		
 #ifdef SHOW_WORK_INFO
-		printf("usr_set_clock result is d\n",result);
+		printf("usr_set_clock result is %d\n",result);
 #endif
 		gtloginfo("设置时间完毕，结果为%d\n",result);
 		count=0;
