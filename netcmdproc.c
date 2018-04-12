@@ -1752,23 +1752,51 @@ static int usr_require_rt(int fd,struct gt_usr_cmd_struct *cmd,int env,int enc,i
 {
 
 	WORD	result;
-	unsigned char * guid ; 
+	BYTE * guid ; 
 	//struct in_addr  *addr;
 
 	struct usr_req_rt_img_struct * query_cmd = (struct usr_req_rt_img_struct *)cmd->para;
-	DWORD  ip = htonl(query_cmd->remoteip);
+	DWORD  peer_ip = htonl(query_cmd->remoteip);
 
-	struct in_addr  *addr = (struct in_addr *)&ip ;
+	struct in_addr  *addr = (struct in_addr *)&peer_ip ;
 
-	//memcpy(&addr,ip,sizeof(struct in_addr));
 	guid = query_cmd->dev_id;
+	
+	if(query_cmd->mode == 1) //query av
+	{
 
-	printf("IAG 收到请求视频命令 rtmp://%s:%d/realplay/%02x%02x%02x%02x%02x%02x%02x%02x/%d\n",\
+		if(query_cmd->audio_flag == 1)
+		{
+				printf("IAG 收到请求音视频命令 rtmp://%s:%d/realplay/%02x%02x%02x%02x%02x%02x%02x%02x/ch%d\n",\
 				inet_ntoa(*addr), \
 				query_cmd->remoteport,\
-				guid[7],guid[6],guid[5],guid[4],guid[3],guid[2],guid[1],guid[0],\
+				guid[0],guid[1],guid[2],guid[3],guid[4],guid[5],guid[6],guid[7],\
+				query_cmd->channel);
+		}
+		else
+		{
+				printf("IAG 收到请求视频命令 rtmp://%s:%d/realplay/%02x%02x%02x%02x%02x%02x%02x%02x/ch%d\n",\
+				inet_ntoa(*addr), \
+				query_cmd->remoteport,\
+				guid[0],guid[1],guid[2],guid[3],guid[4],guid[5],guid[6],guid[7],\
 				query_cmd->channel);
 
+		
+		}
+
+
+	}
+	else
+	{
+		printf("IAG 收到退订视频命令 rtmp://%s:%d/realplay/%02x%02x%02x%02x%02x%02x%02x%02x/ch%d\n",\
+				inet_ntoa(*addr), \
+				query_cmd->remoteport,\
+				guid[0],guid[1],guid[2],guid[3],guid[4],guid[5],guid[6],guid[7],\
+				query_cmd->channel);
+
+
+
+	}
 
 	result=RESULT_SUCCESS;
 	if(cmd->en_ack!=0)
@@ -1777,44 +1805,59 @@ static int usr_require_rt(int fd,struct gt_usr_cmd_struct *cmd,int env,int enc,i
 		//return send_gate_query_rt_return(fd,query_cmd->channel,result,env,enc,dev_no);
 }
 
-static int usr_stop_rt(int fd,struct gt_usr_cmd_struct *cmd,int env,int enc,int dev_no)
-{
-	WORD	result;
-
-	struct usr_stop_rt_img_struct* query_cmd = (struct usr_stop_rt_img_struct *)cmd->para;
-
-	printf("IAG 收到停止视频命令 id = %d \n",query_cmd->query_usr_id);	
-
-	result=RESULT_SUCCESS;
-
-	if(cmd->en_ack!=0)
-
-		return send_gate_ack(fd,USR_STOP_RT_IMAGE, result,env,enc,dev_no);
-
-	return 0;
-
-}
 
 static int usr_require_pb(int fd,struct gt_usr_cmd_struct *cmd,int env,int enc,int dev_no)
 {
 	WORD	result;
 
+	BYTE * guid ; 
 
 	viewer_subscribe_record_struct  * query_cmd = (viewer_subscribe_record_struct  *)cmd->para;
+	DWORD  peer_ip = htonl(query_cmd->remoteip);
 
-	printf("IAG 收到请求回放命令 rtmp://%s:%d/playback%d/%d\n",\
-				query_cmd->peer_ip,\
-				query_cmd->peer_port,\
-				query_cmd->stream_idx,\
-				query_cmd->channel);
+	struct in_addr  *addr = (struct in_addr *)&peer_ip ;
 
-
+	guid = query_cmd->dev_id;
+	timepoint_struct * start_time = &query_cmd->starttime;
+	timepoint_struct * end_time = &query_cmd->endtime;
 	
+	if(query_cmd->mode == 1) //query av
+	{
+
+			printf("IAG 收到请求录像点播命令 rtmp://%s:%d/playback/%02x%02x%02x%02x%02x%02x%02x%02x/ch%d/index%d\n",\
+			inet_ntoa(*addr), \
+			query_cmd->remoteport,\
+			guid[0],guid[1],guid[2],guid[3],guid[4],guid[5],guid[6],guid[7],\
+			query_cmd->channel,\
+			query_cmd->stream_idx);
+
+			printf("\n时间 %02d-%02d-%02d %02d:%02d:%02d ~~~~~~~~%02d-%02d-%02d %02d:%02d:%02d\n",\
+						start_time->year,start_time->month,start_time->day,\
+						start_time->hour,start_time->minute,start_time->second,\
+						end_time->year,end_time->month,end_time->day,\
+						end_time->hour,end_time->minute,end_time->second);
+			printf("\n命令字 %d  速率%d\n",query_cmd->ctl_cmd,query_cmd->speed);
+
+	}
+
+
+
+	else
+	{
+			printf("IAG 收到退订录像点播命令 rtmp://%s:%d/playback/%02x%02x%02x%02x%02x%02x%02x%02x/ch%d/index%d\n",\
+			inet_ntoa(*addr), \
+			query_cmd->remoteport,\
+			guid[0],guid[1],guid[2],guid[3],guid[4],guid[5],guid[6],guid[7],\
+			query_cmd->channel,\
+			query_cmd->stream_idx);
+
+	}
+
 
 	result=RESULT_SUCCESS;
 	if(cmd->en_ack!=0)
 
-		return send_gate_query_pb_return(fd,query_cmd->channel,result,env,enc,dev_no);
+		return send_gate_ack(fd,USR_REQUIRE_RECORD_PLAYBACK, result,env,enc,dev_no);
 
 	return 0;
 
@@ -2401,9 +2444,6 @@ void process_netcmd(int fd,struct gt_usr_cmd_struct* cmd,int env,int enc,int dev
 
 		case USR_REQUIRE_RT_IMAGE: //用户请求音视频
 				usr_require_rt(fd,cmd,env,enc,dev_no);
-		break;
-		case USR_STOP_RT_IMAGE: //用户停止音视频
-				usr_stop_rt(fd,cmd,env,enc,dev_no);
 		break;
 		case USR_REQUIRE_RECORD_PLAYBACK: //用户请求录像回放
 				usr_require_pb(fd,cmd,env,enc,dev_no);
