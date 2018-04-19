@@ -24,7 +24,7 @@
 #define         PLAYBACK_TRUE                    1
 #define         PLAYBACK_FALSE                  0
 
-#define PLAYBACK_NUM                                5
+#define PLAYBACK_NUM                                16
 #define PLAYBACK_FRAMERATE_25              25
 #define PRE_CONNECT_SEC_MAX                 30  /*预连接的秒数*/
 

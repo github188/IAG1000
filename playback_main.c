@@ -470,6 +470,8 @@ static void exit_log(int signo)
     return;
 }
 
+int main()
+{
 
     init_com_channel();
     InitAllDabase();
@@ -486,9 +488,9 @@ static void exit_log(int signo)
     i = playbackOpen(&playbackopen);
 #endif    
     //playback_openfile1();
-    for(i = 0; i < PLAYBACK_NUM; i++)
+    for(i = 0; i < PLAYBACK_NUM; i++) //可以创建16路发送/
     {
-        readfile_thread(i);
+        media_server_thread(i);
     }
 
     /*被动模式*/
