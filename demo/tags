@@ -1,0 +1,19 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+DAS	test.cpp	84;"	d	file:
+DevicCallBack	test.cpp	/^bool DevicCallBack(long lLoginID, char *pBuf,$/;"	f	signature:(long lLoginID, char *pBuf, unsigned long dwBufLen, long dwUser)
+DisConnect	test.cpp	/^void DisConnect(long lLoginID, char *pchDVRIP, long nDVRPort, unsigned long dwUser)$/;"	f	signature:(long lLoginID, char *pchDVRIP, long nDVRPort, unsigned long dwUser)
+NetDataCallBack	test.cpp	/^int  NetDataCallBack( long lRealHandle, long dwDataType, unsigned char *pBuffer,long lbufsize,long dwUser)$/;"	f	signature:( long lRealHandle, long dwDataType, unsigned char *pBuffer,long lbufsize,long dwUser)
+RealDataCallBack_V2	test.cpp	/^int  RealDataCallBack_V2(long lRealHandle, const PACKET_INFO_EX *pFrame, long dwUser)$/;"	f	signature:(long lRealHandle, const PACKET_INFO_EX *pFrame, long dwUser)
+START_ROUTINE	test.cpp	/^void* START_ROUTINE(LPVOID lpThreadParameter)$/;"	f	signature:(LPVOID lpThreadParameter)
+SearchDevice	test.cpp	/^void* SearchDevice(void *arr)$/;"	f	signature:(void *arr)
+TalkDataCallBack	test.cpp	/^void  TalkDataCallBack(LONG lTalkHandle, char *pDataBuf, long dwBufSize, char byAudioFlag, long dwUser)$/;"	f	signature:(LONG lTalkHandle, char *pDataBuf, long dwBufSize, char byAudioFlag, long dwUser)
+g_LoginID	test.cpp	/^long g_LoginID=0;$/;"	v
+id	test.cpp	/^pthread_t id;$/;"	v
+main	test.cpp	/^int  main(void)$/;"	f	signature:(void)
+pfNetComFun	test.cpp	/^void pfNetComFun(SDK_CONFIG_NET_COMMON_V2 *pNetCom, unsigned long userData)$/;"	f	signature:(SDK_CONFIG_NET_COMMON_V2 *pNetCom, unsigned long userData)
+s_flag	test.cpp	/^static int s_flag = 0;$/;"	v	file:
