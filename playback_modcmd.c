@@ -146,6 +146,7 @@ int usr_query_index_with_time(struct gt_usr_cmd_struct *cmd, gateinfo *gate)
 
     
 
+//todo在这里接收信令并发起rtmp连接
 static int process_hdplayback_start(struct gt_usr_cmd_struct *cmd,gateinfo *gate)
 {
     viewer_subscribe_record_struct playbackopen;
@@ -316,6 +317,90 @@ static int process_hdplayback_ctrl(struct gt_usr_cmd_struct *cmd, gateinfo *gate
 }
 
 
+static int process_realplay_start(struct gt_usr_cmd_struct *cmd,gateinfo *gate)
+{
+
+	struct  usr_req_rt_img_struct  realplay;
+    viewer_subsrcibe_answer_record_struct *openret;
+    int opench = 0;
+    mod_socket_cmd_type *modsocket;
+    DWORD   send_buf[200];
+    struct gt_usr_cmd_struct *gtcmd;
+    int ret;
+	char * guid;
+
+    printf("[Func]:%s [Line]:%d [Info]:%s\n", __FUNCTION__, __LINE__, "enter");
+
+    modsocket=(mod_socket_cmd_type *)send_buf;
+    modsocket->cmd=MOD_BYPASSTO_GATE_CMD;
+    memcpy(&modsocket->gate,gate,sizeof(gateinfo));
+    gtcmd = (struct gt_usr_cmd_struct *)modsocket->para;
+    gtcmd->cmd=VIEWER_SUBSCRIBE_VIDEO_ANSWER;
+    gtcmd->en_ack=0;
+    gtcmd->reserve0=0;
+    gtcmd->reserve1=0;
+    openret=(struct usr_req_rt_img_struct *)((char *)gtcmd->para);
+    memcpy(&realplay,cmd->para,sizeof(realplay));
+	DWORD  peer_ip = htonl(realplay.remoteip);
+
+	struct in_addr  *addr = (struct in_addr *)&peer_ip ;
+
+	guid = realplay.dev_id;
+	
+	if(realplay.mode == 1) //query av
+	{
+
+		if(realplay.audio_flag == 1)
+		{
+				printf("IAG 收到请求(音)视频命令 rtmp://%s:%d/realplay/%02x%02x%02x%02x%02x%02x%02x%02x/ch%d\n",\
+				inet_ntoa(*addr), \
+				realplay.remoteport,\
+				guid[0],guid[1],guid[2],guid[3],guid[4],guid[5],guid[6],guid[7],\
+				realplay.channel);
+		}
+		else
+		{
+				printf("IAG 收到请求(视)频命令 rtmp://%s:%d/realplay/%02x%02x%02x%02x%02x%02x%02x%02x/ch%d\n",\
+				inet_ntoa(*addr), \
+				realplay.remoteport,\
+				guid[0],guid[1],guid[2],guid[3],guid[4],guid[5],guid[6],guid[7],\
+				realplay.channel);
+		}
+
+	}
+	else
+	{
+	
+	
+	}
+	
+    printf("check starttime:%d%d%d %d-%d-%d endtime:%d%d%d %d-%d-%d\n", 
+    playbackopen.starttime.year,playbackopen.starttime.month,playbackopen.starttime.day,
+    playbackopen.starttime.hour,playbackopen.starttime.minute,playbackopen.starttime.second,
+    playbackopen.endtime.year,playbackopen.endtime.month,playbackopen.endtime.day,
+    playbackopen.endtime.hour,playbackopen.endtime.minute,playbackopen.endtime.second);    
+    opench = playbackOpen(&playbackopen);
+    if(opench < 0)
+    {
+        openret->status = opench;
+        openret->query_usr_id = opench;
+    }
+    else
+     {
+        openret->status = 0;
+    }       
+    openret->query_usr_id = opench;
+    printf("playbackopen return ,channel :%d,status:%d\n",openret->query_usr_id, openret->status);
+    
+    gtcmd->len=SIZEOF_GT_USR_CMD_STRUCT-sizeof(gtcmd->para)+sizeof(viewer_subsrcibe_answer_record_struct);
+    modsocket->len = gtcmd->len +sizeof(gtcmd->len);
+    ret = mod_socket_send(com_fd,MAIN_PROCESS_ID,PLAYBACK_PROCESS_ID,modsocket,sizeof(mod_socket_cmd_type)-sizeof(modsocket->para)+modsocket->len);
+    //gtloginfo("发送用户查询%d通道录像索引结果0x%04x,len %d\n",qtimesection.channel,retqtimesection->result,modsocket->len);
+
+    return 0;
+}
+
+
 
 //处理由主进程转发过来的网关命令
 static int process_gate_cmd(struct gt_usr_cmd_struct *cmd,gateinfo *gate)
@@ -340,11 +425,16 @@ static int process_gate_cmd(struct gt_usr_cmd_struct *cmd,gateinfo *gate)
             gtloginfo("recv VIEWER_UNSUBSCRIBE_RECORD cmd !\n");   
             process_hdplayback_stop(cmd,gate);
         break;
+		case USR_REQUIRE_RT_IMAGE:
+			gtloginfo("recv a VIEWER_SUBSCRIBE_RECORD cmd!\n")
+			process_realplay_start(cmd, gate);
+			break;
         default:
             printf("hdmodule recv a unknow bypass cmd 0x%04x\n",cmd->cmd);
             gtloginfo("hdmodule recv a unknow bypass cmd 0x%04x\n",cmd->cmd);           
             //send_ack_to_main(com_fd,PLAYBACK_PROCESS_ID,cmd->cmd,ERR_EVC_NOT_SUPPORT, gate);
         break;
+			
     }
     return 0;
 }

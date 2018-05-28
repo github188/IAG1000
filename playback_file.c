@@ -497,6 +497,7 @@ static unsigned short  playback_get_source()
 }
 
 
+//在这里读取一针然后发射
 void playback_process(void * ch)
 {
 
@@ -787,7 +788,7 @@ void playback_process(void * ch)
 
        
 }
-void readfile_thread(int playbackIndex)
+void media_server_thread(int playbackIndex)
 {
     int thread_node_t = -1;
     pthread_t thread_test;
@@ -796,7 +797,7 @@ void readfile_thread(int playbackIndex)
 
     if(thread_node_t == 0)
     {
-        printf("创建第%d路回放线程成功\n", playbackIndex);
+        printf("创建第%d路媒体线程成功\n", playbackIndex);
     }
     else 
     {
