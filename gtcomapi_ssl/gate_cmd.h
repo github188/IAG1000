@@ -121,6 +121,7 @@ typedef enum
 
 typedef enum
 {
+	PLAY,
 	PAUSE,
 	RESUME,
 	SPEED,
@@ -158,6 +159,7 @@ typedef struct
 	unsigned char  en_ack; 
 	unsigned char  reserved[3];
 */
+	/*
 	unsigned char  dev_ip[32];           ////设备ip
 	unsigned char  reserved1[12];        //// for ipv6
 	unsigned char  dev_id[8];           ////dev guid
@@ -176,15 +178,25 @@ typedef struct
 	unsigned char  reserved4[2];
 
 	unsigned int   dev_port;             ////  设备录像服务端口
-	unsigned int   stream_idx;           ////  录像回放事物号，由监听端产生
-
 	unsigned char  peer_ip[32];            ////请求端ip地址
-	unsigned short peer_port;            ////请求端监听port端口
-	unsigned short channel;              //// 0-31
-	
+	*/
+
+	WORD	save_flag;		//应该一直为0
+	WORD	mode;			//访问模式 1表示请求连接，0表示强行断开任何已有的实时图像连接，其他值待定
+	BYTE    dev_id[8];      //dev guid
+	DWORD 	remoteip;		//要推送实时图像的计算机ip地址
+	WORD	remoteport;     //对端端口
+	WORD    channel;        //通道号
+	DWORD   stream_idx;     //事务号
+	WORD 	trans_protocal; //协议类型 
+	WORD	audio_flag    ; //是否发送音频
+
+	recordctl_t    ctl_cmd;             //// 回放控制命令
 	transpeed_t    speed;                ////  点播速率 
 	timepoint_struct starttime;          ////  起始订阅时间（有效时间段内）
 	timepoint_struct endtime;            ////  终止订阅时间（有效时间段内）
+
+	BYTE  	reserved[12];   //ipv6
 }viewer_subscribe_record_struct;
 
 #define  VIEWER_SUBSCRIBE_ANSWER_RECORD	0x0608
